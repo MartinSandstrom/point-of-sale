@@ -1,0 +1,56 @@
+.App {
+	text-align: center;
+}
+
+.App-logo {
+	animation: App-logo-spin infinite 20s linear;
+	height: 80px;
+}
+
+.App-header {
+	background-color: #222;
+	height: 50px;
+	padding: 20px;
+	color: white;
+}
+
+.App-title {
+	font-size: 1.5em;
+}
+
+.App-intro {
+	font-size: large;
+}
+
+.App-shopping-cart {
+    width: 40px;
+    position: absolute;
+    top: 25px;
+	right: 20px;
+	cursor: pointer;
+}
+
+.App-number-of-items-badge {
+    top: 34px;
+    right: 2px;
+    position: absolute;
+    border-radius: 50%;
+    width: 15px;
+    font-size: 16px;
+    height: 16px;
+    padding: 4px;
+    background: #fff;
+    border: 2px solid #666;
+    color: #666;
+    text-align: center;
+}
+
+@-webkit-keyframes App-logo-spin {
+	from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+	to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@keyframes App-logo-spin {
+	from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+	to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
