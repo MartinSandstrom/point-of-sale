@@ -1,9 +1,23 @@
 import React, { Component } from 'react';
+import './Modal.css';
 
 export default class Modal extends Component {
 	render() {
+		if (!this.props.show) {
+			return null;
+		}
 		return (
-			<h1>I am a modal :</h1>
+			<div className="modal-wrap">
+				<div className="modal">
+					<div className="modal-close" onClick={this.props.onClose}>X</div>
+					<div className="modal-header">
+						Cart
+					</div>
+					<div className="modal-body">
+						{this.props.children}
+					</div>
+				</div>
+			</div>
 		)
 	}
 }

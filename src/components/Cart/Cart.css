@@ -1,0 +1,21 @@
+.cart-item {
+    padding: 10px;
+    border: 1px solid #e8e8e8;
+    text-align: left;
+    margin-top: 11px;
+    position: relative;
+}
+
+.cart-garbage {
+    width: 25px;
+    position: absolute;
+    top: 7px;
+    right: 5px;
+    cursor: pointer;
+}
+
+.cart-footer {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #e8e8e8;
+}
