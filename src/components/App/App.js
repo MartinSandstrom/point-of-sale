@@ -16,18 +16,21 @@ class App extends Component {
 			cart: [],
 			showCart: false,
 			isWaitingForPayment: false,
-			isPaymentDone: false
+			isPaymentDone: false,
+			purchasedProducs: []
 		}
 		websocket.onmessage = this.onPurchaseDone;
 	}
 
 	onPurchaseDone = event => {
 		let jsObj = JSON.parse(event.data);
+		let purchasedProducs = this.state.cart;
 		this.setState({
 			isWaitingForPayment: false,
 			isPaymentDone: true,
 			showCart: false,
 			cart: [],
+			purchasedProducs,
 			recieptTotal: jsObj.amount
 		});
 	}
@@ -81,9 +84,17 @@ class App extends Component {
 
 	renderProductsOrReciept = () => {
 		if (this.state.isPaymentDone) {
+			let purchasedProducs = this.state.purchasedProducs.map((product, index) => {
+				return (
+					<div key={index}>
+						{product.amount} x {product.name}
+					</div>
+				)
+			});
 			return (
 				<div>
 					<h1>Thank you for your order</h1>
+					{purchasedProducs}
 					<p>Amount {this.state.recieptTotal} AUD</p>
 				</div>
 			);
