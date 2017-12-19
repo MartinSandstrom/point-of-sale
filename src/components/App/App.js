@@ -5,6 +5,7 @@ import { Product } from '../Product/Product.js';
 import ShoppingCartLogo from './shopping-cart.svg';
 import Modal from '../Modal/Modal.js';
 import { Products } from '../../data.js';
+import { CartCalculate } from '../../utils/CartCalculate.js';
 const websocket = new WebSocket('ws://demos.kaazing.com/echo');
 
 class App extends Component {
@@ -22,7 +23,6 @@ class App extends Component {
 
 	onPurchaseDone = event => {
 		let jsObj = JSON.parse(event.data);
-		let re
 		this.setState({
 			isWaitingForPayment: false,
 			isPaymentDone: true,
@@ -70,7 +70,7 @@ class App extends Component {
 	getAmountOfProducts = () => this.state.cart.reduce((currentValue, item) => currentValue + item.amount, 0);
 
 	pay = () => {
-		let amount = this.calculateTotalAmount();
+		let amount = CartCalculate.getTotalAmount(this.state.cart);
 		let json = JSON.stringify({
 			amount,
 			event: 'purchase'
@@ -83,7 +83,7 @@ class App extends Component {
 		if (this.state.isPaymentDone) {
 			return (
 				<div>
-					<h1>Thank you for the order</h1>
+					<h1>Thank you for your order</h1>
 					<p>Amount {this.state.recieptTotal} AUD</p>
 				</div>
 			);
@@ -93,8 +93,6 @@ class App extends Component {
 			products
 		)
 	}
-
-	calculateTotalAmount = () => this.state.cart.reduce((currentValue, item) => currentValue + (item.prize * item.amount), 0);
 
 	render() {
 		return (

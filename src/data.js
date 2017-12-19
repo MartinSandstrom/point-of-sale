@@ -13,13 +13,13 @@ export const Products = [
 	},
 	{
 		id: '3',
-		name: 'Friezz',
+		name: 'Curly Fries',
 		imgSrc: '',
 		prize: 3
 	},
 	{
 		id: '4',
-		name: 'MIlkshake',
+		name: 'Strawberry Milkshake',
 		imgSrc: '',
 		prize: 4
 	}
