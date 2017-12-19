@@ -23,8 +23,11 @@ class App extends Component {
 	}
 
 	onPurchaseDone = event => {
+		if (!event.data) {
+			console.error('Could not finnish the paymnt');
+			return;
+		}
 		let jsObj = JSON.parse(event.data);
-		console.log(jsObj);
 		let purchasedProducs = this.state.cart;
 		this.setState({
 			isWaitingForPayment: false,
@@ -110,7 +113,9 @@ class App extends Component {
 		return (
 			<div className="app">
 				<header className="app-header">
-					<h1 className="app-title">Point of sale</h1>
+					<h1 className="app-title">
+						Point of sale
+					</h1>
 					<img className="app-shopping-cart" src={ShoppingCartLogo} alt="shopping-cart" onClick={this.showCart} />
 					{this.renderBadge()}
 				</header>
