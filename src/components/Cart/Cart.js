@@ -1,16 +1,27 @@
 import React, { Component } from 'react';
 import './Cart.css';
+import spinner from './fruits-grape.gif';
 import garbageSvg from './garbage.svg';
-import Button from '../Button/Button.js';
+import { Button } from '../Button/Button.js';
 
 export default class Cart extends Component {
 	renderFooter = () => {
 		if (this.props.cart.length > 0) {
 			return (
 				<div className="cart-footer">
-					<Button value="Pay" onClick={this.props.pay}></Button>
+					<Button value="Pay" disabled={this.props.isWaitingForPayment} onClick={this.props.pay}></Button>
 				</div>
 			);
+		}
+	}
+
+	renderSpinner = () => {
+		if (this.props.isWaitingForPayment) {
+			return (
+				<div className="cart-spinner">
+					<img src={spinner} alt="loading spinner"/>
+				</div>
+			)
 		}
 	}
 
@@ -27,9 +38,10 @@ export default class Cart extends Component {
 			<div className="cart">
 				<div className="cart-body">
 					{cartItems}
+					{this.renderSpinner()}
 				</div>
 				{this.renderFooter()}
 			</div>
-		)
+		);
 	}
 }

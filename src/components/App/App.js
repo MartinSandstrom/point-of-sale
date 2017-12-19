@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Cart from '../Cart/Cart.js';
-import Product from '../Product/Product.js';
+import { Product } from '../Product/Product.js';
 import ShoppingCartLogo from './shopping-cart.svg';
 import Modal from '../Modal/Modal.js';
 import { Products } from '../../data.js';
@@ -13,14 +13,23 @@ class App extends Component {
 		super();
 		this.state = {
 			cart: [],
-			showCart: false
+			showCart: false,
+			isWaitingForPayment: false,
+			isPaymentDone: false
 		}
 		websocket.onmessage = this.onPurchaseDone;
 	}
 
 	onPurchaseDone = event => {
 		let jsObj = JSON.parse(event.data);
-		console.log(jsObj);
+		let re
+		this.setState({
+			isWaitingForPayment: false,
+			isPaymentDone: true,
+			showCart: false,
+			cart: [],
+			recieptTotal: jsObj.amount
+		});
 	}
 
 	addToCart = (id) => {
@@ -49,13 +58,9 @@ class App extends Component {
 		}
 	}
 
-	showCart = () => {
-		this.setState({ showCart: true });
-	}
+	showCart = () => this.setState({ showCart: true });
 
-	hideCart = () => {
-		this.setState({ showCart: false });
-	}
+	hideCart = () => this.setState({ showCart: false });
 
 	removeItem = (id) => {
 		let cart = this.state.cart.filter(item => item.id !== id);
@@ -65,19 +70,33 @@ class App extends Component {
 	getAmountOfProducts = () => this.state.cart.reduce((currentValue, item) => currentValue + item.amount, 0);
 
 	pay = () => {
-		console.log('hi?');
-		let amount = this.calculateAmount();
+		let amount = this.calculateTotalAmount();
 		let json = JSON.stringify({
 			amount,
 			event: 'purchase'
 		});
 		websocket.send(json);
+		this.setState({ isWaitingForPayment: true });
 	}
 
-	calculateAmount = () => this.state.cart.reduce((currentValue, item) => currentValue + (item.prize * item.amount), 0);
+	renderProductsOrReciept = () => {
+		if (this.state.isPaymentDone) {
+			return (
+				<div>
+					<h1>Thank you for the order</h1>
+					<p>Amount {this.state.recieptTotal} AUD</p>
+				</div>
+			);
+		}
+		let products = Products.map(product => <Product key={product.id} addToCart={this.addToCart} id={product.id} prize={product.prize} name={product.name}></Product>);
+		return (
+			products
+		)
+	}
+
+	calculateTotalAmount = () => this.state.cart.reduce((currentValue, item) => currentValue + (item.prize * item.amount), 0);
 
 	render() {
-		let products = Products.map(product => <Product key={product.id} addToCart={this.addToCart} id={product.id} prize={product.prize} name={product.name}></Product>);
 		return (
 			<div className="app">
 				<header className="app-header">
@@ -85,9 +104,9 @@ class App extends Component {
 					<img className="app-shopping-cart" src={ShoppingCartLogo} alt="shopping-cart" onClick={this.showCart} />
 					{this.renderBadge()}
 				</header>
-				{products}
+				{this.renderProductsOrReciept()}
 				<Modal show={this.state.showCart} onClose={this.hideCart}>
-					<Cart removeItem={this.removeItem} cart={this.state.cart} pay={this.pay}></Cart>
+					<Cart isWaitingForPayment={this.state.isWaitingForPayment} removeItem={this.removeItem} cart={this.state.cart} pay={this.pay}></Cart>
 				</Modal>
 			</div>
 		);
