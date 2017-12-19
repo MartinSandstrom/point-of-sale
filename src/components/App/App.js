@@ -24,6 +24,7 @@ class App extends Component {
 
 	onPurchaseDone = event => {
 		let jsObj = JSON.parse(event.data);
+		console.log(jsObj);
 		let purchasedProducs = this.state.cart;
 		this.setState({
 			isWaitingForPayment: false,
