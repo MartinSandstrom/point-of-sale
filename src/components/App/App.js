@@ -4,33 +4,8 @@ import Cart from '../Cart/Cart.js';
 import Product from '../Product/Product.js';
 import ShoppingCartLogo from './shopping-cart.svg';
 import Modal from '../Modal/Modal.js';
-
-const PRODUCTS = [
-	{
-		id: '1',
-		name: 'Burger',
-		imrSrc: '',
-		prize: 7
-	},
-	{
-		id: '2',
-		name: 'Soda',
-		imgSrc: '',
-		prize: 3
-	},
-	{
-		id: '3',
-		name: 'Friezz',
-		imgSrc: '',
-		prize: 3
-	},
-	{
-		id: '4',
-		name: 'MIlkshake',
-		imgSrc: '',
-		prize: 4
-	}
-];
+import { Products } from '../../data.js';
+const websocket = new WebSocket('ws://demos.kaazing.com/echo');
 
 class App extends Component {
 
@@ -40,11 +15,17 @@ class App extends Component {
 			cart: [],
 			showCart: false
 		}
+		websocket.onmessage = this.onPurchaseDone;
+	}
+
+	onPurchaseDone = event => {
+		let jsObj = JSON.parse(event.data);
+		console.log(jsObj);
 	}
 
 	addToCart = (id) => {
 		//Might wanna do a check here from the server that the item is still in stock etc?
-		let product = PRODUCTS.find(product => product.id === id);
+		let product = Products.find(product => product.id === id);
 		let cart = this.state.cart;
 		let productInCart = this.getProductFromCart(cart, product)
 		if (productInCart) {
@@ -83,8 +64,20 @@ class App extends Component {
 
 	getAmountOfProducts = () => this.state.cart.reduce((currentValue, item) => currentValue + item.amount, 0);
 
+	pay = () => {
+		console.log('hi?');
+		let amount = this.calculateAmount();
+		let json = JSON.stringify({
+			amount,
+			event: 'purchase'
+		});
+		websocket.send(json);
+	}
+
+	calculateAmount = () => this.state.cart.reduce((currentValue, item) => currentValue + (item.prize * item.amount), 0);
+
 	render() {
-		let products = PRODUCTS.map(product => <Product key={product.id} addToCart={this.addToCart} id={product.id} prize={product.prize} name={product.name}></Product>);
+		let products = Products.map(product => <Product key={product.id} addToCart={this.addToCart} id={product.id} prize={product.prize} name={product.name}></Product>);
 		return (
 			<div className="app">
 				<header className="app-header">
@@ -94,7 +87,7 @@ class App extends Component {
 				</header>
 				{products}
 				<Modal show={this.state.showCart} onClose={this.hideCart}>
-					<Cart removeItem={this.removeItem} cart={this.state.cart}></Cart>
+					<Cart removeItem={this.removeItem} cart={this.state.cart} pay={this.pay}></Cart>
 				</Modal>
 			</div>
 		);

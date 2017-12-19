@@ -8,18 +8,11 @@ export default class Cart extends Component {
 		if (this.props.cart.length > 0) {
 			return (
 				<div className="cart-footer">
-					<Button value="Pay" onClick={this.pay}></Button>
+					<Button value="Pay" onClick={this.props.pay}></Button>
 				</div>
 			);
 		}
 	}
-
-	pay = () => {
-		let totalAmount = this.calculateAmount();
-		console.log(totalAmount);
-	}
-
-	calculateAmount = () => this.props.cart.reduce( (currentValue, item) => currentValue + (item.prize * item.amount), 0);
 
 	render() {
 		let cartItems = this.props.cart.map(item => {
