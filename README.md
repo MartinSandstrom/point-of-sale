@@ -1,10 +1,24 @@
-### Point of sale
+# Point of sale
 
+## Usage
 
-### TODO
-* Add routing
-* Design product cards
-* Build shoppingcart
+### Install
+
+```console
+    $ npm install
+```
+
+### Run dev server
+
+```console
+    $ npm start
+```
+
+### Run test
+∫
+```console
+    $ npm test
+```
 
 #### No deploy to github pages due to
 

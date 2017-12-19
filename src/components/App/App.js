@@ -103,7 +103,7 @@ class App extends Component {
 					{this.renderBadge()}
 				</header>
 				{this.renderProductsOrReciept()}
-				<Modal show={this.state.showCart} onClose={this.hideCart}>
+				<Modal title="Cart" show={this.state.showCart} onClose={this.hideCart}>
 					<Cart isWaitingForPayment={this.state.isWaitingForPayment} removeItem={this.removeItem} cart={this.state.cart} pay={this.pay}></Cart>
 				</Modal>
 			</div>

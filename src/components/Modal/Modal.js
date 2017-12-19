@@ -11,7 +11,7 @@ export default class Modal extends Component {
 				<div className="modal">
 					<div className="modal-close" onClick={this.props.onClose}>X</div>
 					<div className="modal-header">
-						Cart
+						{this.props.title}
 					</div>
 					<div className="modal-body">
 						{this.props.children}
