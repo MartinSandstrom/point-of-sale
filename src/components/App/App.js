@@ -84,7 +84,7 @@ class App extends Component {
 	getAmountOfProducts = () => this.state.cart.reduce((currentValue, item) => currentValue + item.amount, 0);
 
 	render() {
-		let products = PRODUCTS.map(product => <Product key={product.id} addToCart={this.addToCart} id={product.id} name={product.name}></Product>);
+		let products = PRODUCTS.map(product => <Product key={product.id} addToCart={this.addToCart} id={product.id} prize={product.prize} name={product.name}></Product>);
 		return (
 			<div className="app">
 				<header className="app-header">

@@ -15,8 +15,11 @@ export default class Cart extends Component {
 	}
 
 	pay = () => {
-		console.log('Oj va det betalas');
+		let totalAmount = this.calculateAmount();
+		console.log(totalAmount);
 	}
+
+	calculateAmount = () => this.props.cart.reduce( (currentValue, item) => currentValue + (item.prize * item.amount), 0);
 
 	render() {
 		let cartItems = this.props.cart.map(item => {
