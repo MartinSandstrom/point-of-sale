@@ -109,15 +109,25 @@ class App extends Component {
 		)
 	}
 
+	renderCartIcon = () => {
+		if (!this.state.isPaymentDone) {
+			return (
+				<div>
+					<img className="app-shopping-cart" src={ShoppingCartLogo} alt="shopping-cart" onClick={this.showCart} />
+					{this.renderBadge()}
+				</div>
+			)
+		}
+	}
+
 	render() {
 		return (
 			<div className="app">
 				<header className="app-header">
 					<h1 className="app-title">
-						Point of sale
+						<a href="/">Point of sale</a>
 					</h1>
-					<img className="app-shopping-cart" src={ShoppingCartLogo} alt="shopping-cart" onClick={this.showCart} />
-					{this.renderBadge()}
+					{this.renderCartIcon()}
 				</header>
 				{this.renderProductsOrReciept()}
 				<Modal title="Cart" show={this.state.showCart} onClose={this.hideCart}>

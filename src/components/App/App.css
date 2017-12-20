@@ -2,11 +2,6 @@
 	text-align: center;
 }
 
-.app-logo {
-	animation: app-logo-spin infinite 20s linear;
-	height: 80px;
-}
-
 .app-header {
 	background-color: #222;
 	height: 50px;
@@ -14,12 +9,13 @@
 	color: white;
 }
 
-.app-title {
-	font-size: 1.5em;
+.app-header a {
+    color: white;
+    text-decoration: none;
 }
 
-.app-intro {
-	font-size: large;
+.app-title {
+	font-size: 1.5em;
 }
 
 .app-shopping-cart {
@@ -44,14 +40,4 @@
     color: #666;
     text-align: center;
     cursor: pointer;
-}
-
-@-webkit-keyframes app-logo-spin {
-	from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
-	to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
-}
-
-@keyframes app-logo-spin {
-	from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
-	to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
 }
