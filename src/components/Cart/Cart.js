@@ -17,6 +17,11 @@ export default class Cart extends Component {
 				</div>
 			);
 		}
+		return (
+			<p>
+				There are no items in the cart
+			</p>
+		)
 	}
 
 	renderSpinner = () => {
